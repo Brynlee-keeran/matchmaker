@@ -2,30 +2,175 @@
 <html lang="en">
 <html>
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Matchmaker</title>
+
+
+<style>
+
+body {
+            font-family: Arial, sans-serif;
+            background-color: #ffb6c1;
+            line-height: 1.6;
+        }
+
+.container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+ .question-container {
+      background: #ffe9ec;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 5px; /* Optional: Adds rounded corners */
+    }
+
+
+</style>
+
+
+
+
+<script>
+  function calculateCompatibility() {
+    const userAnswers = [
+      parseInt(document.getElementById("q1").value),
+      parseInt(document.getElementById("q2").value),
+      parseInt(document.getElementById("q3").value),
+      parseInt(document.getElementById("q4").value),
+      parseInt(document.getElementById("q5").value)
+    ];
+
+    const myAnswers = [5, 5, 5, 5, 5,];
+
+    let compatibilityScore = 0;
+
+    for (let i = 0; i <userAnswers.length; i++) {
+      let difference = Math.abs(userAnswers[i] - myAnswers[i]);
+      let questionScore = (1 - difference / 4) * 100; 
+      compatibilityScore += questionScore; 
+    
+      document.getElementById(`question${i+1}Score`).innerText = 
+      `Q${i+1} Compatibility: ${questionScore.toFixed(2)}%`;
+  
+    
+    }
+
+const averageCompatibility = compatibilityScore / userAnswers.length;
+
+console.log("Average compatibility score: ", averageCompatibility);
+
+let compatibilityMessage;
+      if (averageCompatibility === 100) {
+        compatibilityMessage = "Whoa, it's like we're twins! Just missing the matching fits.";
+      } else if (averageCompatibility >= 80) {
+        compatibilityMessage = "Not too shabby, we are basically besties!";
+      } else if (averageCompatibility >= 60) {
+        compatibilityMessage = "Not terrible, we could still probably rock a dinner party!";
+      } else if (averageCompatibility >= 40) {
+        compatibilityMessage = "Hmm, we're like two puzzle pieces... from completely different puzzles.";
+      } else if (averageCompatibility >= 20) {
+        compatibilityMessage = "We could probably share a cab without tooo much awkward silence.";
+      } else {
+        compatibilityMessage = "Yikes, just pretend you never saw this website...";
+      }
+
+
+document.getElementById("compatibilityResult").innerText = 
+        `Your compatibility with me is: ${averageCompatibility.toFixed(2)}%. ${compatibilityMessage}`;
+
+  }
+
+</script>
+
   </head>
   <body>
 
-    <h1>Matchmaker Website Assignment</h1>
-    <p>Instructions:</p>
+    <div class="container">
 
-    <label>I like to stay physically active.</label><br />
-    <select id="q1">
-      <option value="5">Strongly Agree</option>
-      <option value="4">Agree</option>
-      <option value="3">Neither agree nor disagree</option>
-      <option value="2">Disagree</option>
-      <option value="1">Strongly Disagree</option>
-    </select>
+    <h1>Brynlee's Love Lab </h1>
 
-    <label>Squarebody Chevys are tuff.</label><br />
+
+    <h3>Instructions:</h3>
+    <p>Read the statement or question, then click the dropdown arrow and select what best relates to you! Stay true to yourself and enjoy!</p>
+
+  <div class="question-container">   
+    <label>Squarebody Chevys are tuff!</label><br />
     <select id="q1">
-      <option value="5">Strongly Agree</option>
-      <option value="4">Agree</option>
-      <option value="3">Neither agree nor disagree</option>
-      <option value="2">Disagree</option>
-      <option value="1">Strongly Disagree</option>
+      <option value="1">What does that even mean</option> 
+      <option value="5">Hell yeah</option>
+      <option value="3">Nah, Ford rocks</option>
+      <option value="2">That box on wheels?</option>
+      <option value="4">They look pretty neat</option>
     </select>
+  </div>
+
+ 
+  <div class="question-container"> 
+    <label>Cardinals over Cubs anyday!</label><br />
+    <select id="q2">
+      <option value="4">I'll wear the jersey at games for you</option>
+      <option value="3">Why aren't we talking about the Red Socks?</option>
+      <option value="5">YESS</option>
+      <option value="2">Either is fine!</option>
+      <option value="1">I love football!</option>
+    </select>
+  </div>
+
+   
+  <div class="question-container"> 
+    <label>Cheerleading IS a sport.</label><br />
+    <select id="q3">
+      <option value="1">Nope!</option>
+      <option value="4">Depends, are we talking competitive?</option>
+      <option value="3">Maybe</option>
+      <option value="5">Absoutely</option>
+      <option value="2">What's cheerleading?</option>
+    </select>
+  </div>
+
+    
+ <div class="question-container"> 
+    <label>Do you like piña coladas?</label><br />
+    <select id="q4">
+      <option value="2">I niether like or dislide them</option>
+      <option value="5">or getting caught in the rain.</option>
+      <option value="4">YES!</option>
+      <option value="3">Disgusting! No!</option>
+      <option value="1">Is this even enlgish?</option>
+    </select>
+  </div>
+
+
+ <div class="question-container"> 
+    <label>It is important to be on time to plans.</label><br />
+    <select id="q5">
+      <option value="1">They're lucky if I show up.</option>
+      <option value="3">As long as I am close to time, I'm okay!</option>
+      <option value="5">15 minutes early is on time!</option>
+      <option value="4">Show up early and walk in right on time.</option>
+      <option value="2">A few minutes late won't hurt anything.</option>
+    </select>
+  </div>
+
+
+    <button onclick="calculateCompatibility()">Calculate Compatibility</button>
+    <p id="compatibilityResult"></p>
+
+
+    <h3>Question Compatibility Summary:</h3>
+    <div id="question1Score"></div>
+    <div id="question2Score"></div>
+    <div id="question3Score"></div>
+    <div id="question4Score"></div>
+    <div id="question5Score"></div>
+
+
+  </div>
+
 
   </body>
 </html>

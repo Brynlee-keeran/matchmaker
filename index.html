@@ -9,59 +9,95 @@
 
 <style>
 
-body {
+    body {
             font-family: Arial, sans-serif;
             background-color: #ffb6c1;
             line-height: 1.6;
         }
 
-.container {
+    .container {
             width: 80%;
             margin: auto;
             overflow: hidden;
         }
 
- .question-container {
+    .question-container {
       background: #ffe9ec;
       padding: 15px;
       margin-bottom: 10px;
       border-radius: 5px; /* Optional: Adds rounded corners */
     }
 
+    .error {
+        color: red;
+        font-size: 12px;
+      }
 
 </style>
 
 
 
-
 <script>
-  function calculateCompatibility() {
-    const userAnswers = [
-      parseInt(document.getElementById("q1").value),
-      parseInt(document.getElementById("q2").value),
-      parseInt(document.getElementById("q3").value),
-      parseInt(document.getElementById("q4").value),
-      parseInt(document.getElementById("q5").value)
-    ];
+  function validateForm() {
+      let valid = true; 
+      let errorMessage = 'Whoops! You made a boo-boo'; 
 
-    const myAnswers = [5, 5, 5, 5, 5,];
+   
+      const userAnswers = [
+        document.getElementById("q1").value,
+        document.getElementById("q2").value,
+        document.getElementById("q3").value,
+        document.getElementById("q4").value,
+        document.getElementById("q5").value
+      ];
 
-    let compatibilityScore = 0;
+      const questionIds = ["q1", "q2", "q3", "q4", "q5"];
+      
+   
+      for (let i = 0; i < userAnswers.length; i++) {
+        if (userAnswers[i] === "") {
+          valid = false;
+          document.getElementById(questionIds[i] + "Error").innerText = "Bruh, you ain't done yet! Select an option.";
+        } else {
+          document.getElementById(questionIds[i] + "Error").innerText = "";
+        }
+      }
 
-    for (let i = 0; i <userAnswers.length; i++) {
-      let difference = Math.abs(userAnswers[i] - myAnswers[i]);
-      let questionScore = (1 - difference / 4) * 100; 
-      compatibilityScore += questionScore; 
-    
-      document.getElementById(`question${i+1}Score`).innerText = 
-      `Q${i+1} Compatibility: ${questionScore.toFixed(2)}%`;
-  
-    
+     
+      if (valid) {
+        calculateCompatibility();
+      } else {
+        errorMessage = "Bruh, you ain't done yet! Select an option.";
+        alert(errorMessage); 
+      }
+
+      return valid; 
     }
 
-const averageCompatibility = compatibilityScore / userAnswers.length;
+    function calculateCompatibility() {
+      const userAnswers = [
+        parseInt(document.getElementById("q1").value),
+        parseInt(document.getElementById("q2").value),
+        parseInt(document.getElementById("q3").value),
+        parseInt(document.getElementById("q4").value),
+        parseInt(document.getElementById("q5").value)
+      ];
 
-console.log("Average compatibility score: ", averageCompatibility);
+      const myAnswers = [5, 5, 5, 5, 5];
+      let compatibilityScore = 0;
+
+      
+      for (let i = 0; i < userAnswers.length; i++) {
+        let difference = Math.abs(userAnswers[i] - myAnswers[i]);
+        let questionScore = (1 - difference / 4) * 100;
+        compatibilityScore += questionScore;
+     
+        document.getElementById(`question${i + 1}Score`).innerText = 
+        `Question ${i + 1} Compatibility Score: ${questionScore.toFixed(2)}%`;
+     
+      }
+
+      const averageCompatibility = compatibilityScore / userAnswers.length;
 
 let compatibilityMessage;
       if (averageCompatibility === 100) {
@@ -100,64 +136,74 @@ document.getElementById("compatibilityResult").innerText =
   <div class="question-container">   
     <label>Squarebody Chevys are tuff!</label><br />
     <select id="q1">
+      <option value="">Please select</option>
       <option value="1">What does that even mean</option> 
       <option value="5">Hell yeah</option>
       <option value="3">Nah, Ford rocks</option>
       <option value="2">That box on wheels?</option>
       <option value="4">They look pretty neat</option>
     </select>
+    <div id="q1Error" class="error"></div>
   </div>
 
  
   <div class="question-container"> 
     <label>Cardinals over Cubs anyday!</label><br />
     <select id="q2">
+      <option value="">Please select</option>
       <option value="4">I'll wear the jersey at games for you</option>
       <option value="3">Why aren't we talking about the Red Socks?</option>
       <option value="5">YESS</option>
       <option value="2">Either is fine!</option>
       <option value="1">I love football!</option>
     </select>
+    <div id="q2Error" class="error"></div>
   </div>
 
    
   <div class="question-container"> 
     <label>Cheerleading IS a sport.</label><br />
     <select id="q3">
+      <option value="">Please select</option>
       <option value="1">Nope!</option>
       <option value="4">Depends, are we talking competitive?</option>
       <option value="3">Maybe</option>
       <option value="5">Absoutely</option>
       <option value="2">What's cheerleading?</option>
     </select>
+    <div id="q3Error" class="error"></div>
   </div>
 
     
  <div class="question-container"> 
     <label>Do you like piña coladas?</label><br />
     <select id="q4">
+      <option value="">Please select</option>
       <option value="2">I niether like or dislide them</option>
       <option value="5">or getting caught in the rain.</option>
       <option value="4">YES!</option>
       <option value="3">Disgusting! No!</option>
       <option value="1">Is this even enlgish?</option>
     </select>
+    <div id="q4Error" class="error"></div>
   </div>
 
 
  <div class="question-container"> 
     <label>It is important to be on time to plans.</label><br />
     <select id="q5">
+      <option value="">Please select</option>
       <option value="1">They're lucky if I show up.</option>
       <option value="3">As long as I am close to time, I'm okay!</option>
       <option value="5">15 minutes early is on time!</option>
       <option value="4">Show up early and walk in right on time.</option>
       <option value="2">A few minutes late won't hurt anything.</option>
     </select>
+    <div id="q5Error" class="error"></div>
   </div>
 
 
-    <button onclick="calculateCompatibility()">Calculate Compatibility</button>
+    <button onclick="validateForm()">Calculate Compatibility</button>
     <p id="compatibilityResult"></p>
 
 
